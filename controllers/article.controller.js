@@ -14,9 +14,22 @@ const getAllArticles = async (req, res) => {
       const now = moment()
 
       const diffInHours = now.diff(updatedAt, 'hours')
+      const diffInDays = now.diff(updatedAt, 'days')
+      const diffInWeeks = now.diff(updatedAt, 'weeks')
+      const diffInMonth = now.diff(updatedAt, 'months')
+      const diffInYears = now.diff(updatedAt, 'years')
+
       let timeDifferenceText
 
-      if (diffInHours >= 1) {
+      if (diffInYears >= 1) {
+        timeDifferenceText = `${diffInYears} tahun yang lalu`
+      }if (diffInMonth >= 1) {
+        timeDifferenceText = `${diffInMonth} bulan yang lalu`
+      } else if (diffInWeeks >= 1) {
+        timeDifferenceText = `${diffInWeeks} minggu yang lalu`
+      } else if (diffInDays >= 1) {
+        timeDifferenceText = `${diffInDays} hari yang lalu`
+      } else if (diffInHours >= 1) {
         timeDifferenceText = `${diffInHours} jam yang lalu`
       } else {
         const diffInMinutes = now.diff(updatedAt, 'minutes')
