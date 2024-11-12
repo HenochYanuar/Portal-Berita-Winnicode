@@ -1,3 +1,4 @@
+require('dotenv').config({ path: './config/.env' })
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const jwt = require('jsonwebtoken')
@@ -5,8 +6,10 @@ const cookieParser = require('cookie-parser')
 const path = require('path')
 const methodOverride = require('method-override')
 const bodyParser = require('body-parser')
+const { articleRouter } = require('./routers/article.route')
+const { authRouter } = require('./routers/auth.route')
 
-const port = 8000
+const port = process.env.PORT
 
 const server = express()
 
@@ -21,7 +24,10 @@ server.use(express.json())
 server.use(express.urlencoded({ extended: true }))
 server.use(cookieParser())
 
+server.use('/user', authRouter)
 
 server.use(expressLayouts)
+
+server.use('/', articleRouter)
 
 server.listen(port, () => console.log(`Server is running at http://localhost:${port}`))
