@@ -7,6 +7,7 @@ const articleRouter = express.Router()
 articleRouter.use(authenticateJWT)
 
 articleRouter.get('/', articleController.getAllArticles)
+articleRouter.get('/:id', articleController.getDetailArticle)
 
 module.exports = {
   articleRouter
