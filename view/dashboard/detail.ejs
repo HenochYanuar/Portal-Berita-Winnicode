@@ -23,9 +23,11 @@
     <div id="comments-section" class="container mt-4">
       <h3>Comments</h3>
       <div id="comment-form">
-        <form action="/submit-comment" method="POST">
+        <form action="/" method="POST">
+          <input type="text" value="<%= context.article.id %>" hidden id="article_id" name="article_id">
+          <input type="text" value="<%= context.user.id %>" hidden id="user_id" name="user_id">
           <div class="form-group mt-3">
-            <input type="text" id="comment-text" name="text" class="form-control" rows="3" placeholder="Tulis komentar Anda di sini" required>
+            <input type="text" id="comment-text" name="comment" class="form-control" rows="3" placeholder="Tulis komentar Anda di sini" required>
           </div>
           <button type="submit" class="btn btn-primary mt-3"><i class="far fa-paper-plane"></i></button>
         </form>
@@ -41,11 +43,11 @@
             <div class="comment-actions">
               <a href="#" class="reply" data-id="<%= comment.id %>">Balas</a>
             </div>
-
+      
             <div class="reply-input-container" id="reply-input-container-<%= comment.id %>"></div>
       
             <% if (comment.children && comment.children.length > 0) { %>
-              <div class="replies">
+              <div class="replies hidden" id="replies-<%= comment.id %>">
                 <% comment.children.forEach(reply => { %>
                   <div class="reply-item">
                     <div class="reply-header">
@@ -53,16 +55,15 @@
                       <span class="time-posted"><%= reply.timeDifference %></span>
                     </div>
                     <p class="reply-content"><%= reply.content %></p>
-                    <div class="reply-actions">
-                    </div>
                   </div>
                 <% }); %>
               </div>
+              <a href="#" class="show-replies" data-id="<%= comment.id %>">Lihat balasan selengkapnya</a>
             <% } %>
           </div>
         <% }); %>
       <% } %>
-    
+      
       <% renderComments(context.comments) %>
     </div>
   </div>
