@@ -18,7 +18,7 @@ const getOne = async (article_id) => {
     )
     .leftJoin('users', 'comments.user_id', 'users.id')
     .where('comments.article_id', article_id)
-    .orderBy('comments.created_at', 'asc')
+    .orderBy('comments.created_at', 'desc')
 
   } catch (error) {
     console.error(error.message)
@@ -27,6 +27,16 @@ const getOne = async (article_id) => {
   }
 }
 
+const create = async (data) => {
+  try {
+    return await db('comments').insert(data)
+
+  } catch (error) {
+    throw new Error('Error failed posts the comment' + error.message)
+
+  }
+}
+
 module.exports = {
-  getOne
+  getOne, create
 }

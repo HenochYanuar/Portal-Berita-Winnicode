@@ -1,9 +1,11 @@
+const bcrypt = require('bcrypt')
 const articleModel = require('../models/article.model')
 const tagsModel = require('../models/tags.model')
 const userModel = require('../models/user.model')
 const commentModel = require('../models/comment.model')
 const moment = require('moment')
-const { err500, err404 } = require('../utils/error')
+const { err500, err404, err403 } = require('../utils/error')
+const idCreator = require('../utils/idCreator')
 
 const layout = 'layout/index'
 
@@ -65,13 +67,11 @@ const getDetailArticle = async (req, res) => {
     let tags = await tagsModel.getOne(req.params.id)
     const comments = await commentModel.getOne(req.params.id)
 
-    console.log(comments)
     if (!article) {
       res.status(404).render('error/error', err404)
       return
     }
 
-    // Fungsi untuk menghitung selisih waktu
     const calculateTimeDifference = (timestamp) => {
       const updatedAt = moment(timestamp)
       const now = moment()
@@ -154,7 +154,39 @@ const getDetailArticle = async (req, res) => {
   }
 }
 
+const postComment = async (req, res) => {
+  try {
+    const { article_id, user_id, comment, parent_id } = await req.body
+
+    if (!article_id || !user_id || !comment) {
+      res.status(403).render('error/error', err403)
+      return
+    }
+
+    const id = idCreator.createID()
+
+    if (!parent_id) {
+      await commentModel.create({
+        id, article_id, user_id,
+        content: comment
+      })
+      res.status(201).redirect(`/${article_id}#comments-section`)
+    }
+
+    await commentModel.create({
+      id, article_id, user_id, parent_id,
+      content: comment
+    })
+
+    res.status(201).redirect(`/${article_id}#comments-section`)
+    
+  } catch (error) {
+    console.error('Error in postComment:', error.message)
+    res.status(500).render('error/error', err500)
+  }
+}
+
 
 module.exports = {
-  getAllArticles, getDetailArticle
+  getAllArticles, getDetailArticle, postComment
 }

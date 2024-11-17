@@ -8,6 +8,7 @@ articleRouter.use(authenticateJWT)
 
 articleRouter.get('/', articleController.getAllArticles)
 articleRouter.get('/:id', articleController.getDetailArticle)
+articleRouter.post('/', articleController.postComment)
 
 module.exports = {
   articleRouter

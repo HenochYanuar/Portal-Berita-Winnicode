@@ -10,6 +10,12 @@ const err404 = {
  title: '404 | Page Not Found'
 }
 
+const err403 = {
+  message : '403 | Forbidden',
+  layout : 'error/error',
+  title : '403 | Forbidden'
+}
+
 module.exports = {
-  err500, err404
+  err500, err404, err403
 }
