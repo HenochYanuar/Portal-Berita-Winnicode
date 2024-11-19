@@ -6,8 +6,16 @@ const db = knex(knexConfig.development)
 
 const getAllArticles = async () => {
   try {
-    return await db('articles').select()
-
+    const articles = await db('articles')
+      .select(
+        'articles.*',
+        db('comments')
+          .count('*')
+          .whereRaw('comments.article_id = articles.id')
+          .as('comment_count')
+      )
+    return articles
+    
   } catch (error) {
     throw new Error('Error geting all articles: ' + error.message)
 
