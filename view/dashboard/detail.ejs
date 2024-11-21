@@ -34,7 +34,7 @@
       </div>
       <% const renderComments = (comments) => { %>
         <% comments.forEach(comment => { %>
-          <div class="comment-item">
+          <div class="comment-item" id="comment<%= comment.id %>">
             <div class="comment-header">
               <strong class="username"><%= comment.username %></strong>
               <span class="time-posted"><%= comment.timeDifference %></span>
@@ -49,7 +49,7 @@
             <% if (comment.children && comment.children.length > 0) { %>
               <div class="replies hidden" id="replies-<%= comment.id %>">
                 <% comment.children.forEach(reply => { %>
-                  <div class="reply-item">
+                  <div class="reply-item" id="comment<%= comment.id %>">
                     <div class="reply-header">
                       <strong class="username"><%= reply.username %></strong>
                       <span class="time-posted"><%= reply.timeDifference %></span>
