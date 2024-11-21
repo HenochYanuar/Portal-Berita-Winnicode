@@ -1,12 +1,15 @@
 <div class="profile-container">
   <div class="profile-body">
-    <div>
+    <div class="profile-data">
       <p class="username"><%= context.user.username %></p>
       <p class="name"><%= context.user.name || context.user.username %></p>
     </div>
+    <div class="logout-btn">
+      <a href="/user/logout">Logout</a>
+    </div>
   </div>
   <p class="email"><%= context.user.email %></p>
-  <a href="#">
+  <a href="/user/profile/update/<%= context.user.id %>">
     <div class="profile-action">
       <span>
         Edit Profile
@@ -24,7 +27,7 @@
       <div>
         <img src="http://localhost:8000/<%= comment.image_url %>" alt="Article Image" class="article_img">
         <p class="title"><%= comment.title %></p>
-        <p><strong class="username-lite"><%= comment.username %></strong>:&nbsp;&nbsp;&nbsp;&nbsp; <%= comment.content %></p>
+        <p><strong class="username-lite"><%= comment.username %></strong><br><%= comment.content %></p>
       </div>
       <div>
       </div>
