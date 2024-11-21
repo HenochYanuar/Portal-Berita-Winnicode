@@ -153,10 +153,15 @@ span {
   font-family: Arial, sans-serif;
 }
 
-.comment-item, .reply-item {
+.comment-item{
   margin-bottom: 15px;
   padding: 10px;
 }
+
+.reply-item {
+  height: fit-content;
+  padding: 0 8px
+} 
 
 .comment-header, .reply-header {
   display: flex;
@@ -164,7 +169,12 @@ span {
   align-items: center;
 }
 
-.username {
+.comment-header .username, .reply-header .username {
+  color: #38B6FF;
+  font-size: 15px;
+}
+
+.profile-body .username {
   color: #38B6FF;
   font-weight: bold;
 }
@@ -177,6 +187,10 @@ span {
 .comment-content, .reply-content {
   margin:  0;
   font-size: 14px;
+}
+
+.reply-item p {
+  margin-bottom: 8px;
 }
 
 .comment-actions, .reply-actions, .show-replies {
