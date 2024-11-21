@@ -12,7 +12,15 @@ const layout = 'layout/index'
 
 const getAllArticles = async (req, res) => {
   try {
-    const articles = await articleModel.getAllArticles()
+    const user = await userModel.findByEmail(req.user.email)
+    
+    if (!user) {
+      return res.status(404).render('error/error', err404)
+    }
+
+    const query = req.query.query
+
+    const articles = query ? await articleModel.getAllArticlesByQuery(query) : await articleModel.getAllArticles()
 
     const articlesWithTimeDiff = articles.map(article => {
       const updatedAt = moment(article.updated_at)
@@ -48,7 +56,8 @@ const getAllArticles = async (req, res) => {
     })
 
     const context = {
-      articles: articlesWithTimeDiff
+      articles: articlesWithTimeDiff,
+      user
     }
 
     const title = 'Articles Dashboard'
@@ -67,7 +76,7 @@ const getDetailArticle = async (req, res) => {
     let tags = await tagsModel.getOne(req.params.id)
     const comments = await commentModel.getOne(req.params.id)
 
-    if (!article) {
+    if (!article || !user) {
       res.status(404).render('error/error', err404)
       return
     }
