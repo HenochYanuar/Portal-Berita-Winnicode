@@ -23,11 +23,40 @@ body {
 .profile-body {
  width: 100%;
  display: flex;
+ justify-content: center;
+ align-items: center;
  padding: 10px 0 0 10px;
 }
 
 .profile-body div {
-  margin-left: 10px;
+  margin: 10px;
+}
+
+.profile-body .profile-data {
+  width: 85%;
+}
+
+.profile-body .logout-btn {
+  display: flex;
+  justify-content: center;
+  width: 15%;
+  padding:  15px;
+  margin-right: 22px;
+  border: 1px solid #f44336;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile-body .logout-btn a {
+  font-size: 16px;
+  text-decoration: none;
+  color: #f1f1f1;
+}
+
+.profile-body .logout-btn:hover {
+  background-color: #d32f2f;
+  border-color: #d32f2f;
 }
 
 .username {
@@ -80,6 +109,10 @@ body {
   padding: 10px;
   background-color: #1c1c1c;
   border-radius: 8px;
+}
+
+.articel-comment-item img {
+  border-radius: 6px;
 }
 
 .articel-comment-item a {
