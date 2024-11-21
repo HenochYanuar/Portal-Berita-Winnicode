@@ -37,6 +37,32 @@ const create = async (data) => {
   }
 }
 
+const getUserComments = async (user_id) => {
+  try {
+    return await db('comments')
+    .select(
+      'comments.id',
+      'comments.content',
+      'comments.user_id',
+      'comments.article_id',
+      'comments.parent_id',
+      'comments.created_at',
+      'comments.updated_at',
+      'articles.title',
+      'articles.image_url',
+      'users.username'
+    )
+    .leftJoin('articles', 'comments.article_id', 'articles.id')
+    .leftJoin('users', 'comments.user_id', 'users.id')
+    .where('comments.user_id', user_id)
+    .orderBy('comments.created_at', 'desc')
+
+  } catch (error) {
+    throw new Error('Error failed get the user comment' + error.message)
+
+  }
+}
+
 module.exports = {
-  getOne, create
+  getOne, create, getUserComments
 }
