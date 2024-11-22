@@ -1,20 +1,22 @@
 <!-- Article Items -->
 <% context.articles.forEach(article => { %>
 <div class="post-item">
-  <div class="post-info">
-    <a href="#">
+  <a href="/<%= article.id %>">
+    <div class="post-info">
       <img src="http://localhost:8000/img/articles_image/<%= article.foto %>" alt="Article Image" class="article_img">
       <div>
         <p class="title"><%= article.title %></p>
         <p class="post-time"><%= article.timeDifference %></p>
       </div>
-    </a>
-  </div>
-  <p class="post-content"><%= article.content %></p>
-  <div class="post-actions">
+    </div>
+    <p class="post-content"><%= article.content %></p>
+    <a href="/<%= article.id %>" class="read-more">Read More...</a>
+    <div class="post-actions">
       <span>
-        <a>💬 25</a>
+        <a href="/<%= article.id %>#comments-section">💬 <%= article.comment_count %></a>
       </span>
-  </div>
+    </div>
+  </a>
 </div>
 <% }) %>
+

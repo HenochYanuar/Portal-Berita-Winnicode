@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const { decode } = require('html-entities')
 const articleModel = require('../models/article.model')
 const tagsModel = require('../models/tags.model')
 const userModel = require('../models/user.model')
@@ -21,6 +21,10 @@ const getAllArticles = async (req, res) => {
     const query = req.query.query
 
     const articles = query ? await articleModel.getAllArticlesByQuery(query) : await articleModel.getAllArticles()
+
+    articles.forEach(article => {
+      article.content = decode(article.content.replace(/<\/?[^>]+(>|$)/g, ""))
+    })
 
     const articlesWithTimeDiff = articles.map(article => {
       const updatedAt = moment(article.updated_at)

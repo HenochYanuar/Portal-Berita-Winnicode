@@ -14,6 +14,7 @@ const getAllArticles = async () => {
           .whereRaw('comments.article_id = articles.id')
           .as('comment_count')
       )
+      .orderBy('articles.created_at', 'desc')
     return articles
 
   } catch (error) {
@@ -35,12 +36,13 @@ const getAllArticlesByQuery = async (query) => {
       )
       .leftJoin('tags', 'articles.tags_id', 'tags.id')
       .where(function () {
-        this.where('articles.title', 'like', `%${query}%`)
-          .orWhere('articles.content', 'like', `%${query}%`)
-          .orWhere('articles.category', 'like', `%${query}%`)
-          .orWhere('tags.tag', 'like', `%${query}%`);
-      });
-    return articles;
+        this.where(db.raw('LOWER(articles.title)'), 'like', `%${query.toLowerCase()}%`)
+          .orWhere(db.raw('LOWER(articles.content)'), 'like', `%${query.toLowerCase()}%`)
+          .orWhere(db.raw('LOWER(articles.category)'), 'like', `%${query.toLowerCase()}%`)
+          .orWhere(db.raw('LOWER(tags.tag)'), 'like', `%${query.toLowerCase()}%`);
+      })
+      .orderBy('articles.created_at', 'desc')
+    return articles
 
   } catch (error) {
     throw new Error('Error geting all articles by query: ' + error.message)
