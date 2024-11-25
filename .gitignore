@@ -1,1 +1,4 @@
 node_modules/
+config/knexfile.js
+config/mailerConfig.js
+config/jwt.js
