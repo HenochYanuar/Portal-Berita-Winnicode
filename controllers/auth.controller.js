@@ -4,6 +4,7 @@ const { secret, expiresIn } = require('../config/jwt')
 const { err500, err404 } = require('../utils/error')
 const userModel = require('../models/user.model')
 const idCreator = require('../utils/idCreator')
+const MailRegister = require('../middleware/authRegisterMiddleware')
 
 const login = (req, res) => {
   res.status(200).render('login&register/login', { message: '' })
@@ -33,9 +34,13 @@ const loginPost = async (req, res) => {
             res.status(400).render('login&register/login', { message: 'This account is admin role' })
           }
 
-          const token = jwt.sign({ id: user.id, email: user.email }, secret, { expiresIn })
+          const token = jwt.sign({ id: user.id, role: user.role, email: user.email }, secret, { expiresIn })
 
-          res.cookie('token', token, { httpOnly: true, maxAge: 86400000 })
+          res.cookie('token_user', token, { 
+            httpOnly: true, 
+            secure: true,
+            maxAge: 86400000 
+          })
  
           res.status(200).redirect('/')
 
@@ -80,18 +85,23 @@ const registerPost = async (req, res) => {
 
       const id = idCreator.createID()
 
-      const isActive = true
+      const isActive = false
       const hashPassword = await bcrypt.hash(password, 10)
 
       if (!user) {
 
         user = await userModel.create({
           id, username, email,
-          name: `user+${id}`,
+          name: NaN,
           role: 'user',
           password: hashPassword,
           isRegister: isActive
         })
+
+        user = req.body
+
+        const mailRegisterInstance = new MailRegister(user)
+        await mailRegisterInstance.sendMail()
 
         res.status(201).render('login&Register/login', { message: 'User registered successfully, check your email for activation !' })
 
@@ -125,9 +135,10 @@ const registerVerify = async (req, res) => {
   }
 }
 
+
 const logout = (req, res) => {
   try {
-    res.clearCookie('token')
+    res.clearCookie('token_user')
     res.status(200).redirect('/user/login')
 
   } catch (error) {

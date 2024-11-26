@@ -7,7 +7,7 @@ authRouter.get('/login', authController.login)
 authRouter.post('/login', authController.loginPost)
 authRouter.get('/register', authController.register)
 authRouter.post('/register', authController.registerPost)
-authRouter.post('/register/verify', authController.registerVerify)
+authRouter.get('/register/verify', authController.registerVerify)
 authRouter.get('/logout', authController.logout)
 
 module.exports = {
