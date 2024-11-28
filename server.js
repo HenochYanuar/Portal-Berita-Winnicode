@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './config/.env' })
+require('dotenv').config()
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const jwt = require('jsonwebtoken')
