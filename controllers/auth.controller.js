@@ -7,7 +7,7 @@ const idCreator = require('../utils/idCreator')
 const MailRegister = require('../middleware/authRegisterMiddleware')
 
 const login = (req, res) => {
-  res.status(200).render('login&register/login', { message: '' })
+  res.status(200).render('login&register/login', { message: null })
 }
 
 const loginPost = async (req, res) => {
@@ -62,7 +62,7 @@ const loginPost = async (req, res) => {
 }
 
 const register = (req, res) => {
-  res.status(200).render('login&register/register', { message: '' })
+  res.status(200).render('login&register/register', { message: null })
 }
 
 const registerPost = async (req, res) => {
@@ -92,7 +92,7 @@ const registerPost = async (req, res) => {
 
         user = await userModel.create({
           id, username, email,
-          name: NaN,
+          name: null,
           role: 'user',
           password: hashPassword,
           isRegister: isActive
