@@ -2,7 +2,7 @@
   <div class="profile-body">
     <div class="profile-data">
       <p class="username"><%= context.user.username %></p>
-      <p class="name"><%= context.user.name === NaN || context.user.username %></p>
+      <p class="name"><%= context.user.name || context.user.username %></p>
     </div>
     <div class="logout-btn">
       <a href="/user/logout">Logout</a>

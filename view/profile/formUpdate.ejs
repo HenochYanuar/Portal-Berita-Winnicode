@@ -20,7 +20,7 @@
             <label for="name">Name</label>
           </td>
           <td>
-            <input type="text" id="name" name="name" value="<%= context.user.name === NaN || '' %>">
+            <input type="text" id="name" name="name" value="<%= context.user.name || context.user.username %>">
           </td>
         </tr>
         <tr>
